@@ -1,0 +1,6 @@
+@SfaxStore.Api_HostAddress = http://localhost:5170
+
+GET {{SfaxStore.Api_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 50" fill="none">
+  <!-- Icon: Stylized Shopping Bag with Smile -->
+  <rect x="10" y="10" width="30" height="30" rx="6" fill="#FACC15" />
+  <path d="M20 22 C 20 32, 30 32, 30 22" stroke="white" stroke-width="3" stroke-linecap="round" />
+  <path d="M18 10 L18 6 C18 2, 32 2, 32 6 L32 10" stroke="#FACC15" stroke-width="3" stroke-linecap="round" />
+  
+  <!-- Text: SfaxStore -->
+  <text x="50" y="32" font-family="Arial, sans-serif" font-size="24" font-weight="bold" fill="#111827">
+    Sfax<tspan fill="#FACC15">Store</tspan>
+  </text>
+</svg>

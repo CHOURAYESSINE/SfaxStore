@@ -1,0 +1,5 @@
+node_modules
+.angular
+SfaxStore.Api/bin
+SfaxStore.Api/obj
+*.log

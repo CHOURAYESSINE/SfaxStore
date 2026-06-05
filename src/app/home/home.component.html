@@ -1,0 +1,123 @@
+<main class="p-6">
+  <section class="grid place-content-center lg:grid-cols-2 gap-4 lg:py-32">
+    <article class="flex flex-col max-w-xl mx-auto gap-2">
+      <h1 class="text-gray-950 font-bold text-4xl sm:text-5xl lg:text-7xl">
+        Shop Computer & Accesories
+      </h1>
+      <p class="text-lg md:text-xl text-gray-500">
+        Shop laptops, desktops, monitors, tablets, PC gaming, hard drives and
+        storage, accesories and more.
+      </p>
+      <a
+        href="#products"
+        class="text-gray-700 rounded-md border border-gray-500 px-4 py-2 w-fit focus:ring-4 focus:ring-gray-200"
+      >
+        View More
+      </a>
+    </article>
+    <article
+      id="controls-carousel"
+      class="relative w-full max-w-screen-sm mx-auto"
+      data-carousel="static"
+    >
+      <!-- Carousel wrapper -->
+      <div class="relative h-56 overflow-hidden rounded-lg sm:h-96">
+        @for (productOffer of productOffers$ | async; track productOffer.id) {
+        <div
+          class="mt-8 sm:mt-28 lg:mt-24 hidden duration-700 ease-in-out"
+          data-carousel-item
+        >
+          <app-product-offer [product]="productOffer" />
+        </div>
+        }
+      </div>
+      <!-- Slider controls -->
+      <button
+        type="button"
+        class="absolute top-0 start-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none"
+        data-carousel-prev
+      >
+        <span
+          class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-gray-500 group-hover:bg-gray-400 group-focus:ring-4 group-focus:ring-gray-300 group-focus:outline-none"
+        >
+          <svg
+            class="w-4 h-4 text-white rtl:rotate-180"
+            aria-hidden="true"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 6 10"
+          >
+            <path
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M5 1 1 5l4 4"
+            />
+          </svg>
+          <span class="sr-only">Previous</span>
+        </span>
+      </button>
+      <button
+        type="button"
+        class="absolute top-0 end-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none"
+        data-carousel-next
+      >
+        <span
+          class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-gray-500 group-hover:bg-gray-400 group-focus:ring-4 group-focus:ring-gray-300 group-focus:outline-none"
+        >
+          <svg
+            class="w-4 h-4 text-white rtl:rotate-180"
+            aria-hidden="true"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 6 10"
+          >
+            <path
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="m1 9 4-4-4-4"
+            />
+          </svg>
+          <span class="sr-only">Next</span>
+        </span>
+      </button>
+    </article>
+  </section>
+  <section id="products" class="my-4 space-y-4 w-full">
+    @if (searchTerm) {
+    <div class="mb-4">
+      <h2 class="font-bold text-gray-950 text-2xl sm:text-3xl">
+        Search results for "{{ searchTerm }}"
+      </h2>
+      <p class="text-gray-500 text-sm mt-1">{{ products().length }} product(s) found</p>
+    </div>
+    } @else {
+    <h2 class="text-center font-bold text-gray-950 text-3xl sm:text-4xl">
+      Pick Your Favorite Product
+    </h2>
+    }
+    
+    @if (products().length === 0 && searchTerm) {
+    <div class="flex flex-col items-center justify-center py-12 text-center">
+      <svg class="w-24 h-24 text-gray-300 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+      </svg>
+      <h3 class="text-xl font-semibold text-gray-700 mb-2">No products found</h3>
+      <p class="text-gray-500 max-w-md">
+        We couldn't find any products matching "{{ searchTerm }}". Try a different search term or clear the search in the navbar.
+      </p>
+    </div>
+    } @else {
+    <article
+      class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"
+    >
+      @for (product of products(); track product.id) {
+      <app-home-product [product]="product" />
+      }
+    </article>
+    }
+  </section>
+</main>

@@ -1,0 +1,89 @@
+@if (stats) {
+<section class="space-y-6">
+  <div>
+    <h2 class="text-2xl font-bold text-gray-950">Dashboard</h2>
+    <p class="text-gray-500">Store performance, stock alerts and recent activity.</p>
+  </div>
+
+  <div class="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+    <article class="rounded-md border border-gray-200 bg-white p-4">
+      <p class="text-sm text-gray-500">Total products</p>
+      <strong class="text-3xl text-gray-950">{{ stats.totalProducts }}</strong>
+    </article>
+    <article class="rounded-md border border-gray-200 bg-white p-4">
+      <p class="text-sm text-gray-500">Total orders</p>
+      <strong class="text-3xl text-gray-950">{{ stats.totalOrders }}</strong>
+    </article>
+    <article class="rounded-md border border-gray-200 bg-white p-4">
+      <p class="text-sm text-gray-500">Users</p>
+      <strong class="text-3xl text-gray-950">{{ stats.totalUsers }}</strong>
+    </article>
+    <article class="rounded-md border border-gray-200 bg-white p-4">
+      <p class="text-sm text-gray-500">Revenue</p>
+      <strong class="text-3xl text-gray-950">{{ stats.totalRevenue | tndCurrency }}</strong>
+    </article>
+  </div>
+
+  <div class="grid gap-4 sm:grid-cols-3">
+    <article class="rounded-md border border-gray-200 bg-white p-4">
+      <p class="text-sm text-gray-500">Categories</p>
+      <strong class="text-2xl text-gray-950">{{ stats.totalCategories }}</strong>
+    </article>
+    <article class="rounded-md border border-gray-200 bg-white p-4">
+      <p class="text-sm text-gray-500">Orders this month</p>
+      <strong class="text-2xl text-gray-950">{{ stats.monthlyOrders }}</strong>
+    </article>
+    <article class="rounded-md border border-red-200 bg-red-50 p-4">
+      <p class="text-sm text-red-600">Low stock products</p>
+      <strong class="text-2xl text-red-700">{{ stats.lowStockProducts }}</strong>
+    </article>
+  </div>
+
+  <div class="grid gap-4 xl:grid-cols-2">
+    <article class="rounded-md border border-gray-200 bg-white p-4">
+      <h3 class="mb-4 font-semibold text-gray-950">Orders by month</h3>
+      <canvas baseChart [data]="ordersChart" [type]="'bar'"></canvas>
+    </article>
+    <article class="rounded-md border border-gray-200 bg-white p-4">
+      <h3 class="mb-4 font-semibold text-gray-950">Products by category</h3>
+      <canvas baseChart [data]="categoryChart" [type]="'pie'"></canvas>
+    </article>
+    <article class="rounded-md border border-gray-200 bg-white p-4">
+      <h3 class="mb-4 font-semibold text-gray-950">Revenue evolution</h3>
+      <canvas baseChart [data]="revenueChart" [type]="'line'"></canvas>
+    </article>
+    <article class="rounded-md border border-gray-200 bg-white p-4">
+      <h3 class="mb-4 font-semibold text-gray-950">Orders by status</h3>
+      <canvas baseChart [data]="statusChart" [type]="'doughnut'"></canvas>
+    </article>
+  </div>
+
+  <div class="grid gap-4 xl:grid-cols-2">
+    <article class="rounded-md border border-gray-200 bg-white p-4">
+      <h3 class="mb-4 font-semibold text-gray-950">Top products</h3>
+      <div class="space-y-3">
+        @for (product of stats.topProducts; track product.id) {
+        <div class="flex items-center justify-between border-b border-gray-100 pb-3">
+          <span class="text-sm font-medium text-gray-800">{{ product.name }}</span>
+          <span class="text-sm text-gray-500">{{ product.sold || 0 }} sold</span>
+        </div>
+        }
+      </div>
+    </article>
+    <article class="rounded-md border border-gray-200 bg-white p-4">
+      <h3 class="mb-4 font-semibold text-gray-950">Recent orders</h3>
+      <div class="space-y-3">
+        @for (order of stats.recentOrders; track order.id) {
+        <div class="flex items-center justify-between border-b border-gray-100 pb-3">
+          <div>
+            <p class="text-sm font-medium text-gray-800">#{{ order.id }} · {{ order.user?.fullName }}</p>
+            <p class="text-xs text-gray-500">{{ order.createdAt }} · {{ order.status }}</p>
+          </div>
+          <span class="text-sm font-semibold text-gray-950">{{ order.totalAmount | tndCurrency }}</span>
+        </div>
+        }
+      </div>
+    </article>
+  </div>
+</section>
+}
