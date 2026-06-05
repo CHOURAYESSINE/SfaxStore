@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import { Component, OnInit, inject } from '@angular/core';
 import { CartProductComponent } from './components/cart-product/cart-product.component';
 import { TndCurrencyPipe } from '../shared/pipes/tnd-currency.pipe';
@@ -7,8 +8,9 @@ import { FormsModule } from '@angular/forms';
 import { CheckoutService, AppliedGiftCard } from '../core/services/checkout.service';
 
 @Component({
+  standalone: true,
   selector: 'app-cart',
-  imports: [CartProductComponent, TndCurrencyPipe, RouterLink, FormsModule],
+  imports: [CommonModule, CartProductComponent, TndCurrencyPipe, RouterLink, FormsModule],
   templateUrl: './cart.component.html',
 })
 export class CartComponent implements OnInit {

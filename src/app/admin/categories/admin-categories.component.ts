@@ -1,11 +1,13 @@
+import { CommonModule } from '@angular/common';
 import { Component, OnInit, inject } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Category } from '../../core/models/admin.model';
 import { CategoryService } from '../../core/services/category.service';
 
 @Component({
+  standalone: true,
   selector: 'app-admin-categories',
-  imports: [ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './admin-categories.component.html',
 })
 export class AdminCategoriesComponent implements OnInit {

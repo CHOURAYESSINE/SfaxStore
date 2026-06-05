@@ -7,7 +7,7 @@
     <div class="mt-6 sm:mt-8 md:gap-6 lg:flex lg:items-start xl:gap-8">
       <div class="mx-auto w-full flex-none lg:max-w-2xl xl:max-w-4xl">
         <div class="space-y-6">
-          @if (cartProducts.length == 0) {
+          <ng-container *ngIf="cartProducts.length == 0; else elseBlock10">
           <div class="flex flex-col mx-auto">
             <div class="relative size-64 mx-auto">
               <img
@@ -46,12 +46,12 @@
               </p>
             </div>
           </div>
-          } @else { @for (cartProduct of cartProducts; track $index) {
+          </ng-container><ng-template #elseBlock10> <ng-container *ngFor="let cartProduct of cartProducts">
           <app-cart-product
             (updateCartEvent)="updateCart()"
             [cartProduct]="cartProduct"
           />
-          } }
+          </ng-container> </ng-template>
         </div>
       </div>
 
@@ -68,14 +68,14 @@
                 {{ total | tndCurrency }}
               </dd>
             </div>
-            @if (giftCardDiscount > 0) {
+            <ng-container *ngIf="giftCardDiscount > 0">
             <div class="flex items-center justify-between gap-4">
               <dt class="text-sm text-green-600">Gift Card Discount</dt>
               <dd class="text-sm text-green-600">
                 -{{ giftCardDiscount | tndCurrency }}
               </dd>
             </div>
-            }
+            </ng-container>
             <dl
               class="flex items-center justify-between gap-4 border-t border-gray-200 pt-2"
             >
@@ -129,7 +129,7 @@
             >
               Do you have a voucher or gift card?
             </label>
-            @if (appliedGiftCard) {
+            <ng-container *ngIf="appliedGiftCard; else elseBlock12">
             <div class="flex items-center justify-between p-3 bg-green-50 border border-green-200 rounded-lg">
               <div>
                 <p class="text-sm font-medium text-green-800">Gift card applied!</p>
@@ -144,7 +144,7 @@
                 Remove
               </button>
             </div>
-            } @else {
+            </ng-container><ng-template #elseBlock12>
             <div class="space-y-3">
               <input
                 type="text"
@@ -154,7 +154,7 @@
                 placeholder="Enter gift card code"
                 [disabled]="isApplyingGiftCard"
               />
-              @if (giftCardMessage) {
+              <ng-container *ngIf="giftCardMessage">
               <p
                 class="text-sm"
                 [class.text-green-600]="giftCardMessage.type === 'success'"
@@ -162,25 +162,25 @@
               >
                 {{ giftCardMessage.text }}
               </p>
-              }
+              </ng-container>
               <button
                 type="button"
                 (click)="applyGiftCard()"
                 [disabled]="isApplyingGiftCard || !giftCardCode.trim()"
                 class="flex w-full items-center justify-center rounded-lg px-5 py-2.5 text-sm font-medium text-white bg-yellow-400 hover:bg-yellow-500 disabled:bg-gray-300 disabled:cursor-not-allowed focus:outline-none focus:ring-4 focus:ring-yellow-200"
               >
-                @if (isApplyingGiftCard) {
+                <ng-container *ngIf="isApplyingGiftCard; else elseBlock11">
                 <svg class="animate-spin h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24">
                   <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
                   <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                 </svg>
                 Applying...
-                } @else {
+                </ng-container><ng-template #elseBlock11>
                 Apply Code
-                }
+                </ng-template>
               </button>
             </div>
-            }
+            </ng-template>
           </div>
         </div>
       </div>

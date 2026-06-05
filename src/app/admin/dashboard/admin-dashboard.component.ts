@@ -1,13 +1,17 @@
+import { CommonModule } from '@angular/common';
 import { Component, OnInit, inject } from '@angular/core';
-import { BaseChartDirective } from 'ng2-charts';
-import { ChartConfiguration } from 'chart.js';
+import { NgChartsModule } from 'ng2-charts';
+import { Chart, ChartConfiguration, registerables } from 'chart.js';
 import { DashboardStats } from '../../core/models/admin.model';
 import { DashboardService } from '../../core/services/dashboard.service';
 import { TndCurrencyPipe } from '../../shared/pipes/tnd-currency.pipe';
 
+Chart.register(...registerables);
+
 @Component({
+  standalone: true,
   selector: 'app-admin-dashboard',
-  imports: [BaseChartDirective, TndCurrencyPipe],
+  imports: [CommonModule, NgChartsModule, TndCurrencyPipe],
   templateUrl: './admin-dashboard.component.html',
 })
 export class AdminDashboardComponent implements OnInit {

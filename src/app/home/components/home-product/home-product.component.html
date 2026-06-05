@@ -1,32 +1,32 @@
 <a
-  [routerLink]="['products', product().id]"
+  [routerLink]="['products', product.id]"
   class="size-full shadow-md bg-white rounded-md border border-gray-300 p-6 flex flex-col items-center mx-auto transition-transform hover:scale-105 overflow-hidden"
 >
   <div class="relative size-24 mb-8 flex items-center justify-center">
     <img
       class="max-w-full max-h-full object-contain object-center"
-      [src]="product().urlImg"
-      [alt]="product().name"
+      [src]="product.urlImg"
+      [alt]="product.name"
     />
   </div>
   <div class="flex flex-col mt-4 self-start gap-1">
     <h4 class="font-bold text-gray-950 text-base md:text-lg text-pretty">
-      {{ product().name }}
+      {{ product.name }}
     </h4>
     <div class="flex flex-wrap gap-2 text-xs font-medium">
-      @if (product().categoryName) {
+      <ng-container *ngIf="product.categoryName">
       <span class="rounded-full bg-gray-100 px-2 py-1 text-gray-600">
-        {{ product().categoryName }}
+        {{ product.categoryName }}
       </span>
-      }
+      </ng-container>
       <span
         class="rounded-full px-2 py-1"
-        [class.bg-green-100]="product().stock > 0"
-        [class.text-green-700]="product().stock > 0"
-        [class.bg-red-100]="product().stock <= 0"
-        [class.text-red-700]="product().stock <= 0"
+        [class.bg-green-100]="product.stock > 0"
+        [class.text-green-700]="product.stock > 0"
+        [class.bg-red-100]="product.stock <= 0"
+        [class.text-red-700]="product.stock <= 0"
       >
-        {{ product().stock > 0 ? product().stock + ' in stock' : 'Out of stock' }}
+        {{ product.stock > 0 ? product.stock + ' in stock' : 'Out of stock' }}
       </span>
     </div>
     <div class="flex gap-2">
@@ -83,18 +83,18 @@
         </svg>
       </div>
       <p class="border-l border-gray-500 text-gray-500 ps-2 text-sm">
-        {{ product().reviews }} reviews
+        {{ product.reviews }} reviews
       </p>
     </div>
     <div class="flex items-baseline gap-1 font-bold">
       <span class="text-gray-950 text-2xl">{{
-        product().price | tndCurrency
+        product.price | tndCurrency
       }}</span>
-      @if(product().previousPrice){
+      <ng-container *ngIf="product.previousPrice">
       <span class="text-sm line-through text-gray-500">{{
-        product().previousPrice | tndCurrency
+        product.previousPrice | tndCurrency
       }}</span>
-      }
+      </ng-container>
     </div>
   </div>
 </a>

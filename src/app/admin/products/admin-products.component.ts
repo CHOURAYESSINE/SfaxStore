@@ -8,6 +8,7 @@ import { CategoryService } from '../../core/services/category.service';
 import { TndCurrencyPipe } from '../../shared/pipes/tnd-currency.pipe';
 
 @Component({
+  standalone: true,
   selector: 'app-admin-products',
   imports: [CommonModule, FormsModule, ReactiveFormsModule, TndCurrencyPipe],
   templateUrl: './admin-products.component.html',

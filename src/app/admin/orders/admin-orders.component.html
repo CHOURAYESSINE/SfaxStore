@@ -17,15 +17,15 @@
         </tr>
       </thead>
       <tbody class="divide-y divide-gray-100">
-        @for (order of orders; track order.id) {
+        <ng-container *ngFor="let order of orders">
         <tr>
           <td class="px-4 py-3 font-medium text-gray-950">#{{ order.id }}</td>
           <td class="px-4 py-3">{{ order.user?.fullName }}</td>
           <td class="px-4 py-3">{{ order.createdAt }}</td>
           <td class="px-4 py-3">
-            @for (item of order.items; track item.id) {
+            <ng-container *ngFor="let item of order.items">
             <p class="text-xs text-gray-600">{{ item.quantity }} x {{ item.product?.name }}</p>
-            }
+            </ng-container>
           </td>
           <td class="px-4 py-3 font-semibold">{{ order.totalAmount | tndCurrency }}</td>
           <td class="px-4 py-3">
@@ -34,13 +34,13 @@
               (ngModelChange)="updateStatus(order, $event)"
               class="rounded-md border border-gray-300 p-2 text-xs font-medium"
             >
-              @for (status of statuses; track status) {
+              <ng-container *ngFor="let status of statuses">
               <option [ngValue]="status">{{ status }}</option>
-              }
+              </ng-container>
             </select>
           </td>
         </tr>
-        }
+        </ng-container>
       </tbody>
     </table>
   </div>

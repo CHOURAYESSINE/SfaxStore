@@ -9,30 +9,30 @@
     </button>
   </div>
 
-  @if (message) {
+  <ng-container *ngIf="message">
   <p class="rounded-md border border-green-200 bg-green-50 px-4 py-3 text-sm text-green-700">{{ message }}</p>
-  }
+  </ng-container>
 
-  @if (showForm) {
+  <ng-container *ngIf="showForm">
   <form [formGroup]="productForm" (ngSubmit)="saveProduct()" class="grid gap-4 rounded-md border border-gray-200 bg-white p-4 lg:grid-cols-2">
     <div>
       <label class="mb-1 block text-sm font-medium text-gray-700">Product name</label>
       <input formControlName="name" class="w-full rounded-md border border-gray-300 p-2 text-sm" />
-      @if (productForm.controls.name.touched && productForm.controls.name.invalid) {
+      <ng-container *ngIf="productForm.controls.name.touched && productForm.controls.name.invalid">
       <p class="mt-1 text-xs text-red-500">Name is required and must contain at least 3 characters.</p>
-      }
+      </ng-container>
     </div>
     <div>
       <label class="mb-1 block text-sm font-medium text-gray-700">Category</label>
       <select formControlName="categoryId" class="w-full rounded-md border border-gray-300 p-2 text-sm">
         <option [ngValue]="null">Choose a category</option>
-        @for (category of categories; track category.id) {
+        <ng-container *ngFor="let category of categories">
         <option [ngValue]="category.id">{{ category.name }}</option>
-        }
+        </ng-container>
       </select>
-      @if (productForm.controls.categoryId.touched && productForm.controls.categoryId.invalid) {
+      <ng-container *ngIf="productForm.controls.categoryId.touched && productForm.controls.categoryId.invalid">
       <p class="mt-1 text-xs text-red-500">Category is required.</p>
-      }
+      </ng-container>
     </div>
     <div>
       <label class="mb-1 block text-sm font-medium text-gray-700">Price</label>
@@ -59,7 +59,7 @@
       </button>
     </div>
   </form>
-  }
+  </ng-container>
 
   <div class="flex flex-wrap gap-3 rounded-md border border-gray-200 bg-white p-4">
     <input
@@ -70,9 +70,9 @@
     />
     <select [(ngModel)]="categoryFilter" (ngModelChange)="loadProducts()" class="rounded-md border border-gray-300 p-2 text-sm">
       <option [ngValue]="'all'">All categories</option>
-      @for (category of categories; track category.id) {
+      <ng-container *ngFor="let category of categories">
       <option [ngValue]="category.id">{{ category.name }}</option>
-      }
+      </ng-container>
     </select>
   </div>
 
@@ -90,7 +90,7 @@
         </tr>
       </thead>
       <tbody class="divide-y divide-gray-100">
-        @for (product of products; track product.id) {
+        <ng-container *ngFor="let product of products">
         <tr>
           <td class="px-4 py-3"><img [src]="product.imageUrl" [alt]="product.name" class="h-12 w-12 rounded-md object-contain" /></td>
           <td class="px-4 py-3 font-medium text-gray-950">{{ product.name }}</td>
@@ -109,7 +109,7 @@
             </div>
           </td>
         </tr>
-        }
+        </ng-container>
       </tbody>
     </table>
   </div>

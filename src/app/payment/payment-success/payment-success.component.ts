@@ -5,6 +5,7 @@ import { PurchaseService } from '../../core/services/purchase.service';
 import { ProductService } from '../../core/services/product.service';
 
 @Component({
+  standalone: true,
   selector: 'app-payment-success',
   imports: [RouterLink],
   templateUrl: './payment-success.component.html',

@@ -10,6 +10,7 @@ import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../core/services/auth.service';
 
 @Component({
+  standalone: true,
   selector: 'app-sign-in',
   imports: [CommonModule, ReactiveFormsModule, RouterLink],
   templateUrl: './sign-in.component.html',

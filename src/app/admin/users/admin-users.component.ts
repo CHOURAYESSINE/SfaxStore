@@ -1,11 +1,13 @@
+import { CommonModule } from '@angular/common';
 import { Component, OnInit, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { AdminUser, UserRole } from '../../core/models/admin.model';
 import { UserService } from '../../core/services/user.service';
 
 @Component({
+  standalone: true,
   selector: 'app-admin-users',
-  imports: [FormsModule],
+  imports: [CommonModule, FormsModule],
   templateUrl: './admin-users.component.html',
 })
 export class AdminUsersComponent implements OnInit {

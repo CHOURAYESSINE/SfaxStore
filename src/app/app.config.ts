@@ -8,7 +8,6 @@ import {
 
 import { routes } from './app.routes';
 import { provideHttpClient, withFetch, withInterceptors } from '@angular/common/http';
-import { provideCharts, withDefaultRegisterables } from 'ng2-charts';
 import { authInterceptor } from './core/interceptors/auth.interceptor';
 
 export const appConfig: ApplicationConfig = {
@@ -21,6 +20,5 @@ export const appConfig: ApplicationConfig = {
       withRouterConfig({ onSameUrlNavigation: 'reload' })
     ),
     provideHttpClient(withFetch(), withInterceptors([authInterceptor])),
-    provideCharts(withDefaultRegisterables()),
   ],
 };

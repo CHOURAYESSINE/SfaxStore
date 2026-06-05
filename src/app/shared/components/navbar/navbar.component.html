@@ -37,7 +37,7 @@
             [class.pe-8]="searchTerm"
             placeholder="Search..."
           />
-          @if (searchTerm) {
+          <ng-container *ngIf="searchTerm">
           <button
             type="button"
             (click)="clearSearch()"
@@ -47,13 +47,11 @@
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
             </svg>
           </button>
-          }
+          </ng-container>
         </div>
         <button
           (click)="search()"
           type="button"
-          data-collapse-toggle="navbar-search"
-          aria-controls="navbar-search"
           aria-expanded="false"
           class="md:hidden text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-4 focus:ring-gray-200 rounded-lg text-sm p-2.5"
         >
@@ -94,11 +92,11 @@
                 d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
               />
             </svg>
-            @if (favoriteCount() > 0) {
+            <ng-container *ngIf="favoriteCount() > 0">
               <span class="absolute -top-1 -right-1 inline-flex items-center justify-center w-5 h-5 text-xs font-bold text-white bg-red-500 rounded-full">
                 {{ favoriteCount() }}
               </span>
-            }
+            </ng-container>
           </a>
           <a
             role="button"
@@ -118,7 +116,7 @@
           </a>
         </div>
         <!-- User Menu -->
-        @if (authService.currentUser$ | async; as user) {
+        <ng-container *ngIf="authService.currentUser$ | async as user; else elseBlock30">
         <div class="relative ml-3">
           <button
             (click)="toggleUserMenu()"
@@ -132,7 +130,7 @@
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
             </svg>
           </button>
-          @if (showUserMenu) {
+          <ng-container *ngIf="showUserMenu">
           <div class="absolute right-0 mt-2 w-48 bg-white rounded-lg border border-gray-200 shadow-lg z-50">
             <div class="px-4 py-3 border-b border-gray-200">
               <p class="text-sm font-medium text-gray-900 truncate">{{ user.name }}</p>
@@ -140,13 +138,13 @@
               <p class="text-xs font-semibold text-yellow-600">{{ user.role }}</p>
             </div>
             <ul class="py-1">
-              @if (authService.hasRole('ADMIN')) {
+              <ng-container *ngIf="authService.hasRole('ADMIN')">
               <li>
                 <a routerLink="/admin/dashboard" (click)="showUserMenu = false" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
                   Admin dashboard
                 </a>
               </li>
-              }
+              </ng-container>
               <li>
                 <a routerLink="/favorites" (click)="showUserMenu = false" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
                   My Favorites
@@ -172,9 +170,9 @@
               </li>
             </ul>
           </div>
-          }
+          </ng-container>
         </div>
-        } @else {
+        </ng-container><ng-template #elseBlock30>
         <div class="hidden md:flex items-center gap-2 ml-3">
           <a
             routerLink="/sign-in"
@@ -197,7 +195,7 @@
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
           </svg>
         </a>
-        }
+        </ng-template>
         <button
           data-collapse-toggle="navbar"
           type="button"
@@ -256,7 +254,7 @@
               >Gift Cards</a
             >
           </li>
-          @if (authService.hasRole('ADMIN')) {
+          <ng-container *ngIf="authService.hasRole('ADMIN')">
           <li>
             <a
               routerLink="/admin/dashboard"
@@ -265,7 +263,7 @@
               >Admin</a
             >
           </li>
-          }
+          </ng-container>
         </ul>
       </div>
     </div>

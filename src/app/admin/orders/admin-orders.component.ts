@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import { Component, OnInit, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Order, OrderStatus } from '../../core/models/admin.model';
@@ -5,8 +6,9 @@ import { OrderService } from '../../core/services/order.service';
 import { TndCurrencyPipe } from '../../shared/pipes/tnd-currency.pipe';
 
 @Component({
+  standalone: true,
   selector: 'app-admin-orders',
-  imports: [FormsModule, TndCurrencyPipe],
+  imports: [CommonModule, FormsModule, TndCurrencyPipe],
   templateUrl: './admin-orders.component.html',
 })
 export class AdminOrdersComponent implements OnInit {

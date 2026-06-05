@@ -2,13 +2,14 @@ import { Component, inject, OnInit, OnDestroy, signal } from '@angular/core';
 import { RouterLink, RouterLinkActive, Router, NavigationEnd } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { Subscription, filter } from 'rxjs';
-import { AsyncPipe } from '@angular/common';
+import {AsyncPipe, CommonModule} from '@angular/common';
 import { AuthService } from '../../../core/services/auth.service';
 import { FavoritesService } from '../../../core/services/favorites.service';
 
 @Component({
+  standalone: true,
   selector: 'app-navbar',
-  imports: [RouterLink, RouterLinkActive, FormsModule, AsyncPipe],
+  imports: [CommonModule, RouterLink, RouterLinkActive, FormsModule, AsyncPipe],
   templateUrl: './navbar.component.html',
 })
 export class NavbarComponent implements OnInit, OnDestroy {

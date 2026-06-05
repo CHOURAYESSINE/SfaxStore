@@ -4,9 +4,9 @@
     <p class="text-gray-500">Manage USER / ADMIN roles and active accounts.</p>
   </div>
 
-  @if (message) {
+  <ng-container *ngIf="message">
   <p class="rounded-md border border-green-200 bg-green-50 px-4 py-3 text-sm text-green-700">{{ message }}</p>
-  }
+  </ng-container>
 
   <div class="overflow-x-auto rounded-md border border-gray-200 bg-white">
     <table class="min-w-full divide-y divide-gray-200 text-sm">
@@ -21,15 +21,15 @@
         </tr>
       </thead>
       <tbody class="divide-y divide-gray-100">
-        @for (user of users; track user.id) {
+        <ng-container *ngFor="let user of users">
         <tr>
           <td class="px-4 py-3 font-medium text-gray-950">{{ user.fullName }}</td>
           <td class="px-4 py-3">{{ user.email }}</td>
           <td class="px-4 py-3">
             <select [ngModel]="user.role" (ngModelChange)="updateRole(user, $event)" class="rounded-md border border-gray-300 p-2 text-xs">
-              @for (role of roles; track role) {
+              <ng-container *ngFor="let role of roles">
               <option [ngValue]="role">{{ role }}</option>
-              }
+              </ng-container>
             </select>
           </td>
           <td class="px-4 py-3">
@@ -47,7 +47,7 @@
             </div>
           </td>
         </tr>
-        }
+        </ng-container>
       </tbody>
     </table>
   </div>

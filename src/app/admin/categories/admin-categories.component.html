@@ -4,9 +4,9 @@
     <p class="mb-4 text-sm text-gray-500">Categories demonstrate the one-to-many relation with products.</p>
     <label class="mb-1 block text-sm font-medium text-gray-700">Name</label>
     <input formControlName="name" class="mb-3 w-full rounded-md border border-gray-300 p-2 text-sm" />
-    @if (categoryForm.controls.name.touched && categoryForm.controls.name.invalid) {
+    <ng-container *ngIf="categoryForm.controls.name.touched && categoryForm.controls.name.invalid">
     <p class="-mt-2 mb-3 text-xs text-red-500">Category name is required.</p>
-    }
+    </ng-container>
     <label class="mb-1 block text-sm font-medium text-gray-700">Description</label>
     <textarea formControlName="description" rows="4" class="mb-4 w-full rounded-md border border-gray-300 p-2 text-sm"></textarea>
     <div class="flex gap-2">
@@ -17,9 +17,9 @@
         Reset
       </button>
     </div>
-    @if (message) {
+    <ng-container *ngIf="message">
     <p class="mt-4 rounded-md bg-yellow-50 px-3 py-2 text-sm text-yellow-800">{{ message }}</p>
-    }
+    </ng-container>
   </form>
 
   <div class="space-y-4">
@@ -38,7 +38,7 @@
           </tr>
         </thead>
         <tbody class="divide-y divide-gray-100">
-          @for (category of categories; track category.id) {
+          <ng-container *ngFor="let category of categories">
           <tr>
             <td class="px-4 py-3 font-medium text-gray-950">{{ category.name }}</td>
             <td class="px-4 py-3 text-gray-600">{{ category.description }}</td>
@@ -50,7 +50,7 @@
               </div>
             </td>
           </tr>
-          }
+          </ng-container>
         </tbody>
       </table>
     </div>

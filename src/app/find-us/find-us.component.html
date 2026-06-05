@@ -77,12 +77,12 @@
         <div class="bg-white rounded-lg shadow-md p-6">
           <h2 class="text-xl font-bold text-gray-950 mb-4">Business Hours</h2>
           <div class="space-y-2">
-            @for (hour of contactInfo.hours; track hour.days) {
+            <ng-container *ngFor="let hour of contactInfo.hours">
               <div class="flex justify-between text-sm">
                 <span class="text-gray-600">{{ hour.days }}</span>
                 <span class="font-medium" [class.text-red-500]="hour.time === 'Closed'" [class.text-gray-900]="hour.time !== 'Closed'">{{ hour.time }}</span>
               </div>
-            }
+            </ng-container>
           </div>
         </div>
 
@@ -120,12 +120,12 @@
     <div class="mt-12 bg-white rounded-lg shadow-md p-6">
       <h2 class="text-xl font-bold text-gray-950 mb-6 text-center">Quick Links</h2>
       <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-4">
-        @for (link of quickLinks; track link.name) {
+        <ng-container *ngFor="let link of quickLinks">
           <a [routerLink]="link.url" 
              class="text-center p-4 rounded-lg border border-gray-200 hover:border-yellow-400 hover:bg-yellow-50 transition-colors group">
             <span class="text-sm font-medium text-gray-700 group-hover:text-yellow-600">{{ link.name }}</span>
           </a>
-        }
+        </ng-container>
       </div>
     </div>
 

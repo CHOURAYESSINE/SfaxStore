@@ -16,11 +16,11 @@
 
     <!-- Sign Up Form -->
     <div class="bg-white rounded-lg border border-gray-200 shadow-sm p-8">
-      @if (errorMessage) {
+      <ng-container *ngIf="errorMessage">
       <div class="mb-4 p-3 rounded-lg bg-red-50 border border-red-200">
         <p class="text-sm text-red-700">{{ errorMessage }}</p>
       </div>
-      }
+      </ng-container>
 
       <form [formGroup]="signUpForm" (ngSubmit)="onSubmit()" class="space-y-5">
         <!-- Name Field -->
@@ -37,9 +37,9 @@
             [class.border-gray-300]="!isFieldInvalid('name')"
             placeholder="Enter your full name"
           />
-          @if (isFieldInvalid('name')) {
+          <ng-container *ngIf="isFieldInvalid('name')">
           <p class="mt-1 text-sm text-red-600">{{ getFieldError('name') }}</p>
-          }
+          </ng-container>
         </div>
 
         <!-- Email Field -->
@@ -56,9 +56,9 @@
             [class.border-gray-300]="!isFieldInvalid('email')"
             placeholder="Enter your email"
           />
-          @if (isFieldInvalid('email')) {
+          <ng-container *ngIf="isFieldInvalid('email')">
           <p class="mt-1 text-sm text-red-600">{{ getFieldError('email') }}</p>
-          }
+          </ng-container>
         </div>
 
         <!-- Password Field -->
@@ -81,74 +81,74 @@
               (click)="togglePasswordVisibility()"
               class="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-400 hover:text-gray-600"
             >
-              @if (showPassword) {
+              <ng-container *ngIf="showPassword; else elseBlock3">
               <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21"></path>
               </svg>
-              } @else {
+              </ng-container><ng-template #elseBlock3>
               <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
               </svg>
-              }
+              </ng-template>
             </button>
           </div>
           <!-- Password Strength Indicator -->
-          @if (signUpForm.get('password')?.value) {
+          <ng-container *ngIf="signUpForm.get('password')?.value">
           <div class="mt-2 space-y-1">
             <p class="text-xs font-medium text-gray-700">Password requirements:</p>
             <ul class="text-xs space-y-0.5">
               <li class="flex items-center gap-1.5" [class.text-green-600]="getPasswordStrength().hasMinLength" [class.text-gray-400]="!getPasswordStrength().hasMinLength">
-                @if (getPasswordStrength().hasMinLength) {
+                <ng-container *ngIf="getPasswordStrength().hasMinLength; else elseBlock4">
                 <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20">
                   <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
                 </svg>
-                } @else {
+                </ng-container><ng-template #elseBlock4>
                 <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20">
                   <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/>
                 </svg>
-                }
+                </ng-template>
                 At least 8 characters
               </li>
               <li class="flex items-center gap-1.5" [class.text-green-600]="getPasswordStrength().hasUpperCase" [class.text-gray-400]="!getPasswordStrength().hasUpperCase">
-                @if (getPasswordStrength().hasUpperCase) {
+                <ng-container *ngIf="getPasswordStrength().hasUpperCase; else elseBlock5">
                 <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20">
                   <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
                 </svg>
-                } @else {
+                </ng-container><ng-template #elseBlock5>
                 <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20">
                   <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/>
                 </svg>
-                }
+                </ng-template>
                 One uppercase letter
               </li>
               <li class="flex items-center gap-1.5" [class.text-green-600]="getPasswordStrength().hasLowerCase" [class.text-gray-400]="!getPasswordStrength().hasLowerCase">
-                @if (getPasswordStrength().hasLowerCase) {
+                <ng-container *ngIf="getPasswordStrength().hasLowerCase; else elseBlock6">
                 <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20">
                   <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
                 </svg>
-                } @else {
+                </ng-container><ng-template #elseBlock6>
                 <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20">
                   <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/>
                 </svg>
-                }
+                </ng-template>
                 One lowercase letter
               </li>
               <li class="flex items-center gap-1.5" [class.text-green-600]="getPasswordStrength().hasNumeric" [class.text-gray-400]="!getPasswordStrength().hasNumeric">
-                @if (getPasswordStrength().hasNumeric) {
+                <ng-container *ngIf="getPasswordStrength().hasNumeric; else elseBlock7">
                 <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20">
                   <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
                 </svg>
-                } @else {
+                </ng-container><ng-template #elseBlock7>
                 <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20">
                   <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/>
                 </svg>
-                }
+                </ng-template>
                 One number
               </li>
             </ul>
           </div>
-          }
+          </ng-container>
         </div>
 
         <!-- Confirm Password Field -->
@@ -171,21 +171,21 @@
               (click)="toggleConfirmPasswordVisibility()"
               class="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-400 hover:text-gray-600"
             >
-              @if (showConfirmPassword) {
+              <ng-container *ngIf="showConfirmPassword; else elseBlock8">
               <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21"></path>
               </svg>
-              } @else {
+              </ng-container><ng-template #elseBlock8>
               <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
               </svg>
-              }
+              </ng-template>
             </button>
           </div>
-          @if (isFieldInvalid('confirmPassword')) {
+          <ng-container *ngIf="isFieldInvalid('confirmPassword')">
           <p class="mt-1 text-sm text-red-600">{{ getFieldError('confirmPassword') }}</p>
-          }
+          </ng-container>
         </div>
 
         <!-- Terms and Conditions -->
@@ -205,9 +205,9 @@
             <a href="#" class="font-medium text-yellow-500 hover:text-yellow-400">Privacy Policy</a>
           </label>
         </div>
-        @if (isFieldInvalid('agreeToTerms')) {
+        <ng-container *ngIf="isFieldInvalid('agreeToTerms')">
         <p class="text-sm text-red-600 -mt-3">You must agree to the terms to continue</p>
-        }
+        </ng-container>
 
         <!-- Submit Button -->
         <button
@@ -215,15 +215,15 @@
           [disabled]="isSubmitting"
           class="w-full flex items-center justify-center rounded-lg bg-yellow-400 px-5 py-2.5 text-sm font-medium text-white focus:outline-none focus:ring-4 focus:ring-yellow-200 disabled:bg-gray-300 disabled:cursor-not-allowed"
         >
-          @if (isSubmitting) {
+          <ng-container *ngIf="isSubmitting; else elseBlock9">
           <svg class="animate-spin h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24">
             <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
             <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
           </svg>
           Creating account...
-          } @else {
+          </ng-container><ng-template #elseBlock9>
           Create account
-          }
+          </ng-template>
         </button>
       </form>
 

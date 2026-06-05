@@ -16,20 +16,20 @@
     </article>
   </section>
   <section id="products" class="my-4 space-y-4 w-full">
-    @if (searchTerm) {
+    <ng-container *ngIf="searchTerm; else elseBlock25">
     <div class="mb-4">
       <h2 class="font-bold text-gray-950 text-2xl sm:text-3xl">
         Search results for "{{ searchTerm }}"
       </h2>
       <p class="text-gray-500 text-sm mt-1">{{ products().length }} product(s) found</p>
     </div>
-    } @else {
+    </ng-container><ng-template #elseBlock25>
     <h2 class="text-center font-bold text-gray-950 text-3xl sm:text-4xl">
       Pick Your Favorite Product
     </h2>
-    }
+    </ng-template>
     
-    @if (products().length === 0 && searchTerm) {
+    <ng-container *ngIf="products().length === 0 && searchTerm; else elseBlock26">
     <div class="flex flex-col items-center justify-center py-12 text-center">
       <svg class="w-24 h-24 text-gray-300 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
@@ -39,14 +39,14 @@
         We couldn't find any products matching "{{ searchTerm }}". Try a different search term or clear the search in the navbar.
       </p>
     </div>
-    } @else {
+    </ng-container><ng-template #elseBlock26>
     <article
       class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"
     >
-      @for (product of products(); track product.id) {
+      <ng-container *ngFor="let product of products()">
       <app-home-product [product]="product" />
-      }
+      </ng-container>
     </article>
-    }
+    </ng-template>
   </section>
 </main>

@@ -17,6 +17,7 @@ import { FormsModule } from '@angular/forms';
 import { TndCurrencyPipe } from '../shared/pipes/tnd-currency.pipe';
 
 @Component({
+  standalone: true,
   selector: 'app-checkout',
   imports: [CommonModule, ReactiveFormsModule, FormsModule, TndCurrencyPipe, RouterLink],
   templateUrl: './checkout.component.html',

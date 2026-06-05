@@ -1,6 +1,6 @@
 {
   "hosting": {
-    "public": "dist/sfaxstore/browser",
+    "public": "dist/sfaxstore",
     "ignore": [
       "firebase.json",
       "**/.*",

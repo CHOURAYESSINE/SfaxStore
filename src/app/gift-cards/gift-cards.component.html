@@ -47,11 +47,11 @@
     </div>
 
     <!-- Browse Cards Tab -->
-    @if (activeTab === 'browse') {
+    <ng-container *ngIf="activeTab === 'browse'">
     <div>
       <!-- Category Filter - pill style -->
       <div class="flex justify-center flex-wrap gap-2 mb-8">
-        @for (category of categories; track category.value) {
+        <ng-container *ngFor="let category of categories">
         <button
           (click)="filterByCategory(category.value)"
           class="px-4 py-2 rounded-md text-sm font-medium border transition-colors"
@@ -65,12 +65,12 @@
         >
           {{ category.label }}
         </button>
-        }
+        </ng-container>
       </div>
 
       <!-- Gift Cards Grid - matching home product cards -->
       <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-        @for (card of giftCards$ | async; track card.id) {
+        <ng-container *ngFor="let card of giftCards$ | async">
         <div 
           class="bg-white rounded-md border border-gray-300 shadow-md p-4 flex flex-col transition-transform hover:scale-105 cursor-pointer"
           (click)="openPurchaseModal(card)"
@@ -97,16 +97,16 @@
             <p class="text-gray-500 text-sm mb-3 line-clamp-2">{{ card.description }}</p>
             
             <div class="flex flex-wrap gap-1 mb-3">
-              @for (amount of card.availableAmounts.slice(0, 3); track amount) {
+              <ng-container *ngFor="let amount of card.availableAmounts.slice(0, 3)">
               <span class="px-2 py-0.5 bg-gray-100 text-gray-700 text-xs rounded">
                 {{ amount | tndCurrency }}
               </span>
-              }
-              @if (card.availableAmounts.length > 3) {
+              </ng-container>
+              <ng-container *ngIf="card.availableAmounts.length > 3">
               <span class="px-2 py-0.5 bg-gray-100 text-gray-500 text-xs rounded">
                 +{{ card.availableAmounts.length - 3 }}
               </span>
-              }
+              </ng-container>
             </div>
 
             <div class="mt-auto">
@@ -121,16 +121,16 @@
             </div>
           </div>
         </div>
-        }
+        </ng-container>
       </div>
     </div>
-    }
+    </ng-container>
 
     <!-- My Gift Cards Tab -->
-    @if (activeTab === 'my-cards') {
+    <ng-container *ngIf="activeTab === 'my-cards'">
     <div>
-      @if (myGiftCards$ | async; as myCards) {
-        @if (myCards.length === 0) {
+      <ng-container *ngIf="myGiftCards$ | async as myCards">
+        <ng-container *ngIf="myCards.length === 0; else elseBlock21">
         <div class="flex flex-col mx-auto text-center py-12">
           <div class="relative size-48 mx-auto mb-4">
             <svg class="w-full h-full text-gray-200" fill="currentColor" viewBox="0 0 24 24">
@@ -151,9 +151,9 @@
             </a>
           </p>
         </div>
-        } @else {
+        </ng-container><ng-template #elseBlock21>
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          @for (purchasedCard of myCards; track purchasedCard.id) {
+          <ng-container *ngFor="let purchasedCard of myCards">
           <div class="bg-white rounded-md border border-gray-300 shadow-md overflow-hidden">
             <!-- Card header with gradient -->
             <div class="h-24 bg-gradient-to-br {{ purchasedCard.giftCard.backgroundColor }} p-4 relative">
@@ -163,11 +163,11 @@
                   <span class="text-white/80 text-xs uppercase tracking-wide">{{ purchasedCard.giftCard.name }}</span>
                   <p class="text-white text-2xl font-bold mt-1">{{ purchasedCard.amount | tndCurrency }}</p>
                 </div>
-                @if (purchasedCard.isRedeemed) {
+                <ng-container *ngIf="purchasedCard.isRedeemed; else elseBlock20">
                 <span class="bg-white/20 text-white text-xs px-2 py-1 rounded">Redeemed</span>
-                } @else {
+                </ng-container><ng-template #elseBlock20>
                 <span class="bg-white/20 text-white text-xs px-2 py-1 rounded">Active</span>
-                }
+                </ng-template>
               </div>
             </div>
             <!-- Card body -->
@@ -188,27 +188,27 @@
                 <span>Purchased: {{ purchasedCard.purchaseDate | date:'mediumDate' }}</span>
                 <span>Expires: {{ purchasedCard.expiryDate | date:'mediumDate' }}</span>
               </div>
-              @if (purchasedCard.recipientName) {
+              <ng-container *ngIf="purchasedCard.recipientName">
               <div class="mt-3 pt-3 border-t border-gray-200">
                 <p class="text-xs text-gray-500">
                   For: <span class="text-gray-700 font-medium">{{ purchasedCard.recipientName }}</span>
                 </p>
-                @if (purchasedCard.message) {
+                <ng-container *ngIf="purchasedCard.message">
                 <p class="text-xs text-gray-500 mt-1 italic">"{{ purchasedCard.message }}"</p>
-                }
+                </ng-container>
               </div>
-              }
+              </ng-container>
             </div>
           </div>
-          }
+          </ng-container>
         </div>
-        }
-      }
+        </ng-template>
+      </ng-container>
     </div>
-    }
+    </ng-container>
 
     <!-- Redeem Tab -->
-    @if (activeTab === 'redeem') {
+    <ng-container *ngIf="activeTab === 'redeem'">
     <div class="max-w-md mx-auto">
       <div class="rounded-lg border border-gray-200 bg-white p-6 shadow-sm">
         <div class="text-center mb-6">
@@ -233,7 +233,7 @@
             />
           </div>
 
-          @if (redeemResult) {
+          <ng-container *ngIf="redeemResult">
           <div
             class="p-3 rounded-lg border"
             [class.bg-green-50]="redeemResult.success"
@@ -245,39 +245,39 @@
               {{ redeemResult.message }}
             </p>
           </div>
-          }
+          </ng-container>
 
           <button
             (click)="redeemGiftCard()"
             [disabled]="isRedeeming || !redeemCode.trim()"
             class="flex w-full items-center justify-center rounded-lg bg-yellow-400 px-5 py-2.5 text-sm font-medium text-white focus:outline-none focus:ring-4 focus:ring-yellow-200 disabled:bg-gray-300 disabled:cursor-not-allowed"
           >
-            @if (isRedeeming) {
+            <ng-container *ngIf="isRedeeming; else elseBlock22">
             <svg class="animate-spin h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24">
               <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
               <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
             </svg>
             Redeeming...
-            } @else {
+            </ng-container><ng-template #elseBlock22>
             Redeem Gift Card
-            }
+            </ng-template>
           </button>
         </div>
 
         <div class="mt-6 pt-4 border-t border-gray-200">
           <p class="text-sm font-medium text-gray-700 mb-2">Where to find your code?</p>
           <ul class="text-sm text-gray-500 space-y-1">
-            <li>• Check the email you received when the gift card was purchased</li>
-            <li>• Look in the "My Gift Cards" section if you purchased it yourself</li>
+            <li>&bull; Check the email you received when the gift card was purchased</li>
+            <li>&bull; Look in the "My Gift Cards" section if you purchased it yourself</li>
           </ul>
         </div>
       </div>
     </div>
-    }
+    </ng-container>
   </section>
 
   <!-- Purchase Modal -->
-  @if (showPurchaseModal && selectedCard) {
+  <ng-container *ngIf="showPurchaseModal && selectedCard">
   <div class="fixed inset-0 z-50 overflow-y-auto">
     <div class="flex min-h-full items-center justify-center p-4">
       <!-- Backdrop -->
@@ -285,7 +285,7 @@
 
       <!-- Modal - styled like cart cards -->
       <div class="relative bg-white rounded-lg border border-gray-200 shadow-lg max-w-md w-full max-h-[90vh] overflow-y-auto">
-        @if (!purchaseSuccess) {
+        <ng-container *ngIf="!purchaseSuccess; else elseBlock24">
         <!-- Modal Header -->
         <div class="sticky top-0 bg-white border-b border-gray-200 px-6 py-4 flex justify-between items-center">
           <h3 class="text-lg font-semibold text-gray-900">Purchase Gift Card</h3>
@@ -311,7 +311,7 @@
           <div>
             <label class="block text-sm font-medium text-gray-900 mb-2">Select Amount</label>
             <div class="flex flex-wrap gap-2">
-              @for (amount of selectedCard.availableAmounts; track amount) {
+              <ng-container *ngFor="let amount of selectedCard.availableAmounts">
               <button
                 (click)="selectAmount(amount)"
                 class="px-3 py-1.5 rounded-md border text-sm font-medium transition-colors"
@@ -323,8 +323,8 @@
               >
                 {{ amount | tndCurrency }}
               </button>
-              }
-              @if (selectedCard.customAmountRange) {
+              </ng-container>
+              <ng-container *ngIf="selectedCard.customAmountRange">
               <button
                 (click)="toggleCustomAmount()"
                 class="px-3 py-1.5 rounded-md border text-sm font-medium transition-colors"
@@ -336,9 +336,9 @@
               >
                 Custom
               </button>
-              }
+              </ng-container>
             </div>
-            @if (useCustomAmount && selectedCard.customAmountRange) {
+            <ng-container *ngIf="useCustomAmount && selectedCard.customAmountRange">
             <div class="mt-2">
               <input
                 type="number"
@@ -352,7 +352,7 @@
                 Min: {{ selectedCard.customAmountRange.min | tndCurrency }} - Max: {{ selectedCard.customAmountRange.max | tndCurrency }}
               </p>
             </div>
-            }
+            </ng-container>
           </div>
 
           <!-- Delivery Method -->
@@ -383,7 +383,7 @@
           </div>
 
           <!-- Recipient Info (for email) -->
-          @if (deliveryMethod === 'email') {
+          <ng-container *ngIf="deliveryMethod === 'email'">
           <div class="space-y-3">
             <div>
               <label class="block text-sm font-medium text-gray-900 mb-1">Recipient's Name</label>
@@ -404,7 +404,7 @@
               />
             </div>
           </div>
-          }
+          </ng-container>
 
           <!-- Sender & Message -->
           <div class="space-y-3">
@@ -436,18 +436,18 @@
             [disabled]="isPurchasing || !isFormValid()"
             class="flex w-full items-center justify-center rounded-lg bg-yellow-400 px-5 py-2.5 text-sm font-medium text-white focus:outline-none focus:ring-4 focus:ring-yellow-200 disabled:bg-gray-300 disabled:cursor-not-allowed"
           >
-            @if (isPurchasing) {
+            <ng-container *ngIf="isPurchasing; else elseBlock23">
             <svg class="animate-spin h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24">
               <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
               <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
             </svg>
             Processing...
-            } @else {
+            </ng-container><ng-template #elseBlock23>
             Purchase for {{ getFinalAmount() | tndCurrency }}
-            }
+            </ng-template>
           </button>
         </div>
-        } @else {
+        </ng-container><ng-template #elseBlock24>
         <!-- Success State -->
         <div class="p-6 text-center">
           <div class="size-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
@@ -488,9 +488,9 @@
             </button>
           </div>
         </div>
-        }
+        </ng-template>
       </div>
     </div>
   </div>
-  }
+  </ng-container>
 </main>

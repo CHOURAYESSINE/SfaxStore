@@ -1,6 +1,6 @@
-import { Component, inject, input, OnInit, signal } from '@angular/core';
+import { Component, Input, inject, OnInit, signal } from '@angular/core';
 import { Product } from '../shared/models/product';
-import { AsyncPipe } from '@angular/common';
+import {AsyncPipe, CommonModule} from '@angular/common';
 import { ProductService } from '../core/services/product.service';
 import { FavoritesService } from '../core/services/favorites.service';
 import { CartProduct } from '../shared/models/cart-product';
@@ -9,12 +9,13 @@ import { Router } from '@angular/router';
 import { TndCurrencyPipe } from '../shared/pipes/tnd-currency.pipe';
 
 @Component({
+  standalone: true,
   selector: 'app-product',
-  imports: [AsyncPipe, TndCurrencyPipe],
+  imports: [CommonModule, AsyncPipe, TndCurrencyPipe],
   templateUrl: './product.component.html',
 })
 export class ProductComponent implements OnInit {
-  id = input<string>('');
+  @Input() id = '';
   productService = inject(ProductService);
   favoritesService = inject(FavoritesService);
   router = inject(Router);
@@ -23,8 +24,8 @@ export class ProductComponent implements OnInit {
   cartMessage = signal('');
 
   ngOnInit(): void {
-    this.product$ = this.productService.getById(this.id());
-    this.isFavorite.set(this.favoritesService.isFavorite(this.id()));
+    this.product$ = this.productService.getById(this.id);
+    this.isFavorite.set(this.favoritesService.isFavorite(this.id));
   }
 
   toggleFavorite(productId: string): void {

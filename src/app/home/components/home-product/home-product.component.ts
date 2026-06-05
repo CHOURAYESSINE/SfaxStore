@@ -1,13 +1,15 @@
-import { Component, input } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { Component, Input } from '@angular/core';
 import { Product } from '../../../shared/models/product';
 import { TndCurrencyPipe } from '../../../shared/pipes/tnd-currency.pipe';
 import { RouterLink } from '@angular/router';
 
 @Component({
+  standalone: true,
   selector: 'app-home-product',
-  imports: [TndCurrencyPipe, RouterLink],
+  imports: [CommonModule, TndCurrencyPipe, RouterLink],
   templateUrl: './home-product.component.html',
 })
 export class HomeProductComponent {
-  product = input.required<Product>();
+  @Input({ required: true }) product!: Product;
 }

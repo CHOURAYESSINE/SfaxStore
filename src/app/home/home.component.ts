@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { Product } from '../shared/models/product';
 import { HomeProductComponent } from './components/home-product/home-product.component';
@@ -7,8 +8,9 @@ import { ActivatedRoute } from '@angular/router';
 import { toSignal } from '@angular/core/rxjs-interop';
 
 @Component({
+  standalone: true,
   selector: 'app-home',
-  imports: [HomeProductComponent],
+  imports: [CommonModule, HomeProductComponent],
   templateUrl: './home.component.html',
 })
 export class HomeComponent {
