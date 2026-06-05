@@ -20,6 +20,7 @@ export class ProductComponent implements OnInit {
   router = inject(Router);
   product$!: Observable<Product | undefined>;
   isFavorite = signal(false);
+  cartMessage = signal('');
 
   ngOnInit(): void {
     this.product$ = this.productService.getById(this.id());
@@ -32,12 +33,24 @@ export class ProductComponent implements OnInit {
   }
 
   addToCart(product: Product) {
+    this.cartMessage.set('');
+
+    if (product.stock <= 0) {
+      this.cartMessage.set('This product is out of stock.');
+      return;
+    }
+
     const cartProducts: CartProduct[] =
       JSON.parse(localStorage.getItem('cart-products') as string) || [];
 
     const matched = cartProducts.find(({ product: p }) => p.id === product.id);
 
     if (matched) {
+      if (matched.quantity >= product.stock) {
+        this.cartMessage.set(`Only ${product.stock} item(s) available in stock.`);
+        return;
+      }
+
       matched.quantity++;
     } else {
       cartProducts.push({ product, quantity: 1 });

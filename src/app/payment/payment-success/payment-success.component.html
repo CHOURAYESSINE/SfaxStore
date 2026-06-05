@@ -13,6 +13,15 @@
       <p class="text-gray-600 my-2">
         Thank you for completing your secure online payment.
       </p>
+      <p
+        class="mx-auto mt-3 max-w-md rounded-md px-4 py-2 text-sm font-medium"
+        [class.bg-green-50]="!hasError"
+        [class.text-green-700]="!hasError"
+        [class.bg-red-50]="hasError"
+        [class.text-red-700]="hasError"
+      >
+        {{ statusMessage }}
+      </p>
       <p>Have a great day!</p>
       <div class="py-5 text-center">
         <a

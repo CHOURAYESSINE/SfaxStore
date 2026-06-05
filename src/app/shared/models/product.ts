@@ -6,4 +6,7 @@ export interface Product {
   reviews: number;
   price: number;
   previousPrice: number | null;
+  stock: number;
+  categoryId: number;
+  categoryName?: string;
 }

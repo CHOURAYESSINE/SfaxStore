@@ -2,6 +2,7 @@ import { Component, inject, OnInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { CartProduct } from '../../shared/models/cart-product';
 import { PurchaseService } from '../../core/services/purchase.service';
+import { ProductService } from '../../core/services/product.service';
 
 @Component({
   selector: 'app-payment-success',
@@ -10,20 +11,24 @@ import { PurchaseService } from '../../core/services/purchase.service';
 })
 export class PaymentSuccessComponent implements OnInit {
   private readonly purchaseService = inject(PurchaseService);
+  private readonly productService = inject(ProductService);
+
+  statusMessage = 'Saving your order in the backend...';
+  hasError = false;
 
   ngOnInit(): void {
     const cartProductsJson = localStorage.getItem('cart-products');
     
     // Handle case where cart is already cleared (page refresh after checkout)
     if (!cartProductsJson) {
-      console.log('Cart already cleared - purchase was processed');
+      this.statusMessage = 'Order already processed.';
       return;
     }
 
     const cartProducts: CartProduct[] = JSON.parse(cartProductsJson);
     
     if (!cartProducts || cartProducts.length === 0) {
-      console.log('No products in cart');
+      this.statusMessage = 'No products found in the cart.';
       return;
     }
 
@@ -37,17 +42,19 @@ export class PaymentSuccessComponent implements OnInit {
     const total = cartProducts.reduce((acc, current) => {
       return acc + current.product.price * current.quantity;
     }, 0);
+    const appliedGiftCard = JSON.parse(localStorage.getItem('applied-gift-card') || 'null');
+    const giftCardDiscount = appliedGiftCard?.amount || 0;
 
-    localStorage.removeItem('cart-products');
-
-    this.purchaseService.save({ total, products: mappedProducts }).subscribe({
+    this.purchaseService.save({ total, products: mappedProducts, userId: 2, giftCardDiscount }).subscribe({
       next: () => {
-        console.log('Purchase saved successfully');
+        localStorage.removeItem('cart-products');
+        localStorage.removeItem('applied-gift-card');
+        this.productService.clearCache();
+        this.statusMessage = 'Order saved successfully. Backend stock has been updated.';
       },
       error: (err) => {
-        console.error('Failed to save purchase:', err);
-        // In a real app, you might want to store the failed purchase
-        // and retry later or notify the user
+        this.hasError = true;
+        this.statusMessage = err?.error || 'Failed to save the order. Please check the backend stock and try again.';
       },
     });
   }

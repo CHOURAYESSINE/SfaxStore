@@ -191,8 +191,6 @@ export class CheckoutService {
       delay(2000), // Simulate network delay
       tap((success) => {
         if (success) {
-          // Clear the applied gift card after successful payment
-          this.saveAppliedGiftCard(null);
           this.updateState({ isProcessing: false });
           this.router.navigate(['/PaymentSuccess']);
         } else {

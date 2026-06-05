@@ -11,3 +11,6 @@ public record ProductRequest(string Name, string Description, decimal Price, int
 
 public record OrderStatusRequest(string Status);
 public record UserRoleRequest(string Role);
+
+public record CreateOrderItemRequest(int ProductId, int Quantity);
+public record CreateOrderRequest(int UserId, List<CreateOrderItemRequest> Items, decimal GiftCardDiscount = 0);

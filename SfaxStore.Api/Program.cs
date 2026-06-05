@@ -11,7 +11,10 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("AngularClient", policy =>
         policy
-            .WithOrigins("http://localhost:4200", "http://127.0.0.1:4200")
+            .WithOrigins(
+                "http://localhost:4200",
+                "http://127.0.0.1:4200",
+                "https://sfaxstore-yessine-2026-66e21.web.app")
             .AllowAnyHeader()
             .AllowAnyMethod());
 });

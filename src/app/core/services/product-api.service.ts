@@ -2,18 +2,22 @@ import { Injectable, inject } from '@angular/core';
 import { Observable, map } from 'rxjs';
 import { Product } from '../../shared/models/product';
 import { HttpClient } from '@angular/common/http';
+import { environment } from '../../../environments/environment';
 
 interface ApiProduct {
   id: number;
-  title: string;
+  name: string;
   price: number;
   description: string;
-  category: string;
-  image: string;
-  rating: {
-    rate: number;
-    count: number;
+  stock: number;
+  imageUrl: string;
+  categoryId: number;
+  category?: {
+    id: number;
+    name: string;
+    description?: string;
   };
+  sold?: number;
 }
 
 @Injectable({
@@ -21,7 +25,7 @@ interface ApiProduct {
 })
 export class ProductApiService {
   private http = inject(HttpClient);
-  private apiUrl = 'https://fakestoreapi.com/products';
+  private apiUrl = `${environment.apiUrl}/products`;
 
   getProducts(): Observable<Product[]> {
     return this.http
@@ -47,18 +51,19 @@ export class ProductApiService {
   }
 
   private mapApiProductToProduct(apiProduct: ApiProduct): Product {
-    // Generate a random previousPrice (10-40% higher) to simulate discounts
-    const discountPercent = 10 + Math.random() * 30; // 10% to 40%
-    const previousPrice = Math.round(apiProduct.price * (1 + discountPercent / 100) * 100) / 100;
+    const previousPrice = Math.round(apiProduct.price * 1.15 * 100) / 100;
 
     return {
       id: apiProduct.id.toString(),
-      name: apiProduct.title,
+      name: apiProduct.name,
       description: apiProduct.description,
-      urlImg: apiProduct.image,
-      reviews: apiProduct.rating.count,
+      urlImg: apiProduct.imageUrl,
+      reviews: apiProduct.sold || 0,
       price: apiProduct.price,
       previousPrice: previousPrice,
+      stock: apiProduct.stock,
+      categoryId: apiProduct.categoryId,
+      categoryName: apiProduct.category?.name,
     };
   }
 }

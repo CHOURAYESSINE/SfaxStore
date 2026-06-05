@@ -26,11 +26,9 @@ export class ProductService {
     );
   }
 
-  getOffers(): Observable<Product[]> {
-    const numberOfOffers = 5;
-    return this.getAll().pipe(
-      map((products) => products.slice(0, numberOfOffers))
-    );
+  clearCache(): void {
+    this.productsCache = [];
+    this.productsSubject.next([]);
   }
 
   searchProducts(term: string): Observable<Product[]> {

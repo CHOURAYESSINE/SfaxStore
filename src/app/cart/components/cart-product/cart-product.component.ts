@@ -28,9 +28,14 @@ export class CartProductComponent implements OnInit {
 
   updateQantity(num: number) {
     let result = this.cartProduct().quantity + num;
+    const stock = this.cartProduct().product.stock;
 
-    if (result == 0) {
+    if (result < 1) {
       result = 1;
+    }
+
+    if (result > stock) {
+      result = stock;
     }
 
     this.cartProduct().quantity = result;

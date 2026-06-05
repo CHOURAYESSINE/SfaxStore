@@ -273,7 +273,7 @@ Remarque : Firebase Hosting déploie le front-end Angular. Le back-end .NET doit
 
 ## 👥 Auteur
 
-**Mahdi Boughariou**
+**Yessine Choura**
 
 ---
 

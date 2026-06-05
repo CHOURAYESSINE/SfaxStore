@@ -25,8 +25,28 @@ public class DashboardController(SfaxStoreDbContext db) : ControllerBase
             totalRevenue = orders.Sum(order => order.TotalAmount),
             monthlyOrders = orders.Count(order => order.CreatedAt.Month == currentMonth),
             lowStockProducts = products.Count(product => product.Stock <= 5),
-            topProducts = products.OrderByDescending(product => product.Sold).Take(5),
-            recentOrders = orders.OrderByDescending(order => order.CreatedAt).Take(5)
+            topProducts = products.OrderByDescending(product => product.Sold).Take(5).Select(product => new
+            {
+                product.Id,
+                product.Name,
+                product.Description,
+                product.Price,
+                product.Stock,
+                product.ImageUrl,
+                product.CategoryId,
+                Category = product.Category == null ? null : new { product.Category.Id, product.Category.Name },
+                product.CreatedAt,
+                product.Sold
+            }),
+            recentOrders = orders.OrderByDescending(order => order.CreatedAt).Take(5).Select(order => new
+            {
+                order.Id,
+                order.UserId,
+                User = order.User == null ? null : new { order.User.Id, order.User.FullName, order.User.Email, order.User.Role },
+                order.TotalAmount,
+                order.Status,
+                order.CreatedAt
+            })
         });
     }
 
