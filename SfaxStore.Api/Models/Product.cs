@@ -10,6 +10,6 @@ public class Product
     public string ImageUrl { get; set; } = string.Empty;
     public int CategoryId { get; set; }
     public Category? Category { get; set; }
-    public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+    public DateTime CreatedAt { get; set; } = DateTime.SpecifyKind(DateTime.UtcNow, DateTimeKind.Unspecified);
     public int Sold { get; set; }
 }

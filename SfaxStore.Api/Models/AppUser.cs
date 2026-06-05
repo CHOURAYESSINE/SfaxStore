@@ -8,6 +8,6 @@ public class AppUser
     public string Password { get; set; } = string.Empty;
     public string Role { get; set; } = "USER";
     public bool Active { get; set; } = true;
-    public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+    public DateTime CreatedAt { get; set; } = DateTime.SpecifyKind(DateTime.UtcNow, DateTimeKind.Unspecified);
     public ICollection<Order> Orders { get; set; } = new List<Order>();
 }

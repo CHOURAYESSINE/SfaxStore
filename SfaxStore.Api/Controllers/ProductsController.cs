@@ -54,7 +54,7 @@ public class ProductsController(SfaxStoreDbContext db) : ControllerBase
             Stock = request.Stock,
             ImageUrl = request.ImageUrl,
             CategoryId = request.CategoryId,
-            CreatedAt = DateTime.UtcNow,
+            CreatedAt = DateTime.SpecifyKind(DateTime.UtcNow, DateTimeKind.Unspecified),
         };
 
         db.Products.Add(product);

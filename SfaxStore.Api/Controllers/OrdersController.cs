@@ -120,7 +120,7 @@ public class OrdersController(SfaxStoreDbContext db) : ControllerBase
             UserId = request.UserId,
             TotalAmount = total,
             Status = "PENDING",
-            CreatedAt = DateTime.UtcNow,
+            CreatedAt = DateTime.SpecifyKind(DateTime.UtcNow, DateTimeKind.Unspecified),
             Items = request.Items.Select(item =>
             {
                 var product = products.First(product => product.Id == item.ProductId);
