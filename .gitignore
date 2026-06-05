@@ -47,6 +47,7 @@ Thumbs.db
 
 # Ignore Playwright session data and internal tooling
 .playwright-mcp/
+.firebase/
 
 # Ignore project notes and local developer docs
 GEMINI.md
