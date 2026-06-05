@@ -1,4 +1,5 @@
 using SfaxStore.Api.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace SfaxStore.Api.Data;
 
@@ -75,5 +76,21 @@ public static class SfaxStoreSeedData
         db.Orders.AddRange(orders);
         db.OrderItems.AddRange(orderItems);
         db.SaveChanges();
+
+        ResetPostgresSequences(db);
+    }
+
+    private static void ResetPostgresSequences(SfaxStoreDbContext db)
+    {
+        if (!db.Database.IsNpgsql())
+        {
+            return;
+        }
+
+        db.Database.ExecuteSqlRaw("""SELECT setval(pg_get_serial_sequence('"Categories"', 'Id'), COALESCE((SELECT MAX("Id") FROM "Categories"), 1), true);""");
+        db.Database.ExecuteSqlRaw("""SELECT setval(pg_get_serial_sequence('"Products"', 'Id'), COALESCE((SELECT MAX("Id") FROM "Products"), 1), true);""");
+        db.Database.ExecuteSqlRaw("""SELECT setval(pg_get_serial_sequence('"Users"', 'Id'), COALESCE((SELECT MAX("Id") FROM "Users"), 1), true);""");
+        db.Database.ExecuteSqlRaw("""SELECT setval(pg_get_serial_sequence('"Orders"', 'Id'), COALESCE((SELECT MAX("Id") FROM "Orders"), 1), true);""");
+        db.Database.ExecuteSqlRaw("""SELECT setval(pg_get_serial_sequence('"OrderItems"', 'Id'), COALESCE((SELECT MAX("Id") FROM "OrderItems"), 1), true);""");
     }
 }

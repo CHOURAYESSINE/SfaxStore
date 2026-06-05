@@ -6,7 +6,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 builder.Services.AddOpenApi();
 builder.Services.AddDbContext<SfaxStoreDbContext>(options =>
-    options.UseInMemoryDatabase("SfaxStoreExamDb"));
+    options.UseNpgsql(builder.Configuration.GetConnectionString("SfaxStoreDb")));
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AngularClient", policy =>
@@ -29,6 +29,7 @@ if (app.Environment.IsDevelopment())
 using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<SfaxStoreDbContext>();
+    db.Database.EnsureCreated();
     SfaxStoreSeedData.Seed(db);
 }
 
