@@ -31,13 +31,23 @@ public class SfaxStoreDbContext(DbContextOptions<SfaxStoreDbContext> options) : 
         modelBuilder.Entity<Product>()
             .Property(product => product.Price)
             .HasPrecision(10, 2);
+        modelBuilder.Entity<Product>()
+            .Property(product => product.CreatedAt)
+            .HasColumnType("timestamp without time zone");
 
         modelBuilder.Entity<Order>()
             .Property(order => order.TotalAmount)
             .HasPrecision(10, 2);
+        modelBuilder.Entity<Order>()
+            .Property(order => order.CreatedAt)
+            .HasColumnType("timestamp without time zone");
 
         modelBuilder.Entity<OrderItem>()
             .Property(item => item.UnitPrice)
             .HasPrecision(10, 2);
+
+        modelBuilder.Entity<AppUser>()
+            .Property(user => user.CreatedAt)
+            .HasColumnType("timestamp without time zone");
     }
 }
