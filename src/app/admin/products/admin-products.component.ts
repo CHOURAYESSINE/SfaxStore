@@ -1,3 +1,5 @@
+import { HttpClient } from '@angular/common/http';
+import { environment } from '../../../environments/environment';
 import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
@@ -15,6 +17,8 @@ import { TndCurrencyPipe } from '../../shared/pipes/tnd-currency.pipe';
 })
 export class AdminProductsComponent implements OnInit {
   private fb = inject(FormBuilder);
+  private http = inject(HttpClient);
+  uploading = false;
   private productService = inject(AdminProductService);
   private categoryService = inject(CategoryService);
 
@@ -112,6 +116,23 @@ export class AdminProductsComponent implements OnInit {
       this.loadProducts();
       this.loadCategories();
     });
+  }
+
+  uploadImage(event: Event): void {
+    const file = (event.target as HTMLInputElement).files?.[0];
+    if (!file) return;
+    if (file.size > 2 * 1024 * 1024 || !['image/png', 'image/jpeg', 'image/webp'].includes(file.type)) {
+      this.message = 'Choose a PNG, JPEG or WebP image under 2 MB.';
+      return;
+    }
+    this.uploading = true;
+    const reader = new FileReader();
+    reader.onerror = () => { this.uploading = false; this.message = 'Unable to read this image.'; };
+    reader.onload = () => this.http.post<{url:string}>(environment.apiUrl + '/images', {data: reader.result}).subscribe({
+      next: result => { this.productForm.patchValue({imageUrl: result.url}); this.uploading = false; this.message = 'Image uploaded.'; },
+      error: err => { this.uploading = false; this.message = err?.error?.message || 'Image upload failed.'; }
+    });
+    reader.readAsDataURL(file);
   }
 
   cancelForm(): void {

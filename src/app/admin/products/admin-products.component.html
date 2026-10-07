@@ -44,6 +44,8 @@
     </div>
     <div class="lg:col-span-2">
       <label class="mb-1 block text-sm font-medium text-gray-700">Image URL</label>
+      <input type="file" accept="image/png,image/jpeg,image/webp" (change)="uploadImage($event)" [disabled]="uploading" aria-label="Upload product image" class="mb-2 block" />
+      <p class="text-xs text-gray-500">PNG, JPEG or WebP, maximum 2 MB. {{ uploading ? "Uploading..." : "" }}</p>
       <input formControlName="imageUrl" class="w-full rounded-md border border-gray-300 p-2 text-sm" />
     </div>
     <div class="lg:col-span-2">

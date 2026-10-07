@@ -1,6 +1,10 @@
 import { Injectable, inject } from '@angular/core';
 import { Router } from '@angular/router';
-import { BehaviorSubject, Observable, of, delay, tap, switchMap } from 'rxjs';
+import { BehaviorSubject, Observable, of, delay, tap, switchMap, map } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { AuthService } from './auth.service';
+import { environment } from '../../../environments/environment';
+import { catchError, finalize } from 'rxjs';
 import { CartProduct } from '../../shared/models/cart-product';
 import { GiftCardService } from './gift-card.service';
 
@@ -59,6 +63,8 @@ const initialState: CheckoutState = {
 })
 export class CheckoutService {
   private router = inject(Router);
+  private http = inject(HttpClient);
+  private auth = inject(AuthService);
   private giftCardService = inject(GiftCardService);
   private stateSubject = new BehaviorSubject<CheckoutState>(initialState); //gérer l'état du checkout
   state$ = this.stateSubject.asObservable();
@@ -173,33 +179,28 @@ export class CheckoutService {
 
   processPayment(): Observable<boolean> {
     const state = this.stateSubject.value;
-
-    if (!state.shippingInfo) {
-      this.updateState({ error: 'Please fill in shipping information' });
+    if (!this.auth.isAuthenticated) {
+      this.updateState({ error: 'Please sign in before placing your order.' });
       return of(false);
     }
-
-    if (state.cartProducts.length === 0) {
-      this.updateState({ error: 'Your cart is empty' });
-      return of(false);
-    }
-
+    if (!state.shippingInfo || !state.cartProducts.length || state.isProcessing) return of(false);
     this.updateState({ isProcessing: true, error: null });
-
-    // Simulate payment processing
-    return of(true).pipe(
-      delay(2000), // Simulate network delay
-      tap((success) => {
-        if (success) {
-          this.updateState({ isProcessing: false });
-          this.router.navigate(['/PaymentSuccess']);
-        } else {
-          this.updateState({
-            isProcessing: false,
-            error: 'Payment failed. Please try again.',
-          });
-        }
-      })
+    return this.http.post<{id: number; totalAmount: number}>(environment.apiUrl + '/orders', {
+      shippingInfo: state.shippingInfo,
+      items: state.cartProducts.map(i => ({ productId: Number(i.product.id), quantity: i.quantity })),
+    }).pipe(
+      tap(order => {
+        sessionStorage.setItem('last-order', JSON.stringify(order));
+        localStorage.removeItem('cart-products');
+        localStorage.removeItem('applied-gift-card');
+        this.router.navigate(['/PaymentSuccess']);
+      }),
+      map(() => true),
+      catchError(err => {
+        this.updateState({ error: err?.error?.message || 'Unable to place your order. Please try again.' });
+        return of(false);
+      }),
+      finalize(() => this.updateState({ isProcessing: false }))
     );
   }
 

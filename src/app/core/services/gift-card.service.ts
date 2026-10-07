@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, of, delay, map } from 'rxjs';
+import { BehaviorSubject, Observable, of, delay, map, throwError } from 'rxjs';
 import {
   GiftCard,
   PurchasedGiftCard,
@@ -95,66 +95,11 @@ export class GiftCardService {
   }
 
   purchaseGiftCard(form: GiftCardPurchaseForm): Observable<PurchasedGiftCard> {
-    const giftCard = this.giftCards.find((gc) => gc.id === form.giftCardId);
-    
-    if (!giftCard) {
-      throw new Error('Gift card not found');
-    }
-
-    const purchasedCard: PurchasedGiftCard = {
-      id: this.generateId(),
-      giftCard,
-      amount: form.amount,
-      code: this.generateGiftCardCode(),
-      recipientEmail: form.recipientEmail,
-      recipientName: form.recipientName,
-      senderName: form.senderName,
-      message: form.message,
-      purchaseDate: new Date(),
-      expiryDate: this.getExpiryDate(),
-      isRedeemed: false,
-    };
-
-    // Simulate API call
-    return of(purchasedCard).pipe(
-      delay(1500),
-      map((card) => {
-        const currentCards = this.purchasedCardsSubject.value;
-        this.purchasedCardsSubject.next([...currentCards, card]);
-        this.savePurchasedCards();
-        return card;
-      })
-    );
+    return throwError(() => new Error('Gift cards are unavailable until an online payment provider is connected.'));
   }
 
-  redeemGiftCard(code: string): Observable<{ success: boolean; message: string; amount?: number }> {
-    const cards = this.purchasedCardsSubject.value;
-    const cardIndex = cards.findIndex((c) => c.code === code && !c.isRedeemed);
-
-    if (cardIndex === -1) {
-      return of({ success: false, message: 'Invalid or already redeemed gift card code.' }).pipe(delay(1000));
-    }
-
-    const card = cards[cardIndex];
-    
-    if (new Date() > card.expiryDate) {
-      return of({ success: false, message: 'This gift card has expired.' }).pipe(delay(1000));
-    }
-
-    cards[cardIndex] = {
-      ...card,
-      isRedeemed: true,
-      redeemedDate: new Date(),
-    };
-
-    this.purchasedCardsSubject.next([...cards]);
-    this.savePurchasedCards();
-
-    return of({
-      success: true,
-      message: `Successfully redeemed ${card.amount.toFixed(2)} D gift card!`,
-      amount: card.amount,
-    }).pipe(delay(1000));
+  redeemGiftCard(code: string): Observable<{success: boolean; message: string; amount?: number}> {
+    return of({success: false, message: 'Online gift cards are currently unavailable.'});
   }
 
   getMyGiftCards(): Observable<PurchasedGiftCard[]> {
