@@ -3,7 +3,7 @@
   class="size-full shadow-md bg-white rounded-md border border-gray-300 p-6 flex flex-col items-center mx-auto transition-transform hover:scale-105 overflow-hidden"
 >
   <div class="relative size-24 mb-8 flex items-center justify-center">
-    <img
+    <img (error)="$any($event.target).src='/svg/product-placeholder.svg'"
       class="max-w-full max-h-full object-contain object-center"
       [src]="product.urlImg"
       [alt]="product.name"

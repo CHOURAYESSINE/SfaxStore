@@ -94,7 +94,7 @@
       <tbody class="divide-y divide-gray-100">
         <ng-container *ngFor="let product of products">
         <tr>
-          <td class="px-4 py-3"><img [src]="product.imageUrl" [alt]="product.name" class="h-12 w-12 rounded-md object-contain" /></td>
+          <td class="px-4 py-3"><img (error)="$any($event.target).src='/svg/product-placeholder.svg'" [src]="product.imageUrl" [alt]="product.name" class="h-12 w-12 rounded-md object-contain" /></td>
           <td class="px-4 py-3 font-medium text-gray-950">{{ product.name }}</td>
           <td class="px-4 py-3">{{ product.category?.name }}</td>
           <td class="px-4 py-3">{{ product.price | tndCurrency }}</td>

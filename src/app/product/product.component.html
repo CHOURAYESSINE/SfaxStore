@@ -4,13 +4,13 @@
     <article class="grid place-content-center bg-gray-100 p-6 min-h-80">
       <div class="flex items-center justify-center size-64 sm:size-72 lg:size-96">
         <ng-container *ngIf="product?.urlImg; else elseBlock27">
-        <img
+        <img (error)="$any($event.target).src='/svg/product-placeholder.svg'"
           class="max-w-full max-h-full object-contain"
           [src]="product.urlImg"
           alt="Product Image"
         />
         </ng-container><ng-template #elseBlock27>
-        <img
+        <img (error)="$any($event.target).src='/svg/product-placeholder.svg'"
           class="max-w-full max-h-full object-contain"
           src="/img/placeholder.jpg"
           alt="Placeholder Image"
