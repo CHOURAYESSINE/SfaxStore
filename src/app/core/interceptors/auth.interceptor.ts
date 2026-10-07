@@ -1,6 +1,7 @@
 import { HttpInterceptorFn } from '@angular/common/http';
 
 export const authInterceptor: HttpInterceptorFn = (req, next) => {
+  if (!req.url.startsWith('/api/') && !req.url.startsWith('http://localhost:5170/api/')) return next(req);
   const storedUser = localStorage.getItem('auth_user');
 
   if (!storedUser) {

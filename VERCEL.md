@@ -9,3 +9,5 @@ Les commandes sont enregistrées au compte connecté, avec adresse de livraison,
 Les paiements bancaires et cartes cadeaux ne sont pas connectés. Aucun débit bancaire ni envoi d'e-mail n'est effectué. Les favoris et le panier restent propres au navigateur. Les images administrateur PNG/JPEG/WebP (2 Mo maximum) sont conservées dans PostgreSQL et servies par `/api/images/:id`.
 
 Validation : `npm run build`. Le projet conserve Angular 16 ; sa mise à niveau et la configuration des paiements sont des travaux distincts à prévoir avant une exploitation commerciale.
+
+Le lien My Orders affiche les commandes persistantes du compte connecté. La connexion utilise email et mot de passe ; les boutons sociaux non connectés ont été retirés.

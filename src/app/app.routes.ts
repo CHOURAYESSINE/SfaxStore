@@ -1,3 +1,4 @@
+import { MyOrdersComponent } from './orders/my-orders.component';
 import { Routes } from '@angular/router';
 import { HomeComponent } from './home/home.component';
 import { CartComponent } from './cart/cart.component';
@@ -21,6 +22,7 @@ import { authGuard } from './core/guards/auth.guard';
 import { roleGuard } from './core/guards/role.guard';
 
 export const routes: Routes = [
+  { path: 'orders', component: MyOrdersComponent, canActivate: [authGuard] },
   {
     path: '',
     component: HomeComponent,
