@@ -20,7 +20,13 @@
         <ng-container *ngFor="let order of orders">
         <tr>
           <td class="px-4 py-3 font-medium text-gray-950">#{{ order.id }}</td>
-          <td class="px-4 py-3">{{ order.user?.fullName }}</td>
+          <td class="px-4 py-3">{{ order.user?.fullName }}
+            <div *ngIf="order.shippingInfo as shipping" class="mt-2 text-xs text-gray-600">
+              <p>{{shipping.fullName}} · {{shipping.phone}}</p>
+              <p>{{shipping.address}}, {{shipping.city}} {{shipping.zipCode}}, {{shipping.country}}</p>
+              <p>{{shipping.email}}</p>
+            </div>
+          </td>
           <td class="px-4 py-3">{{ order.createdAt }}</td>
           <td class="px-4 py-3">
             <ng-container *ngFor="let item of order.items">

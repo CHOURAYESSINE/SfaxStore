@@ -39,6 +39,7 @@ export interface OrderItem {
 }
 
 export interface Order {
+  shippingInfo?: {fullName: string; email: string; phone: string; address: string; city: string; zipCode: string; country: string};
   id: number;
   userId: number;
   user?: AdminUser;
